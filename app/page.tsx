@@ -22,7 +22,7 @@ export default function Home() {
   const loadGifts = async () => {
     try {
       setLoading(true)
-      const response = await fetch("./gifts")
+      const response = await fetch("/api/gifts")
       const data = await response.json()
       setGifts(data)
       setFilteredGifts(data)
