@@ -20,18 +20,28 @@ export default function Home() {
   }, [])
 
   const loadGifts = async () => {
-    try {
-      setLoading(true)
-      const response = await fetch("/api/gifts")
-      const data = await response.json()
-      setGifts(data)
-      setFilteredGifts(data)
-    } catch (error) {
-      console.error("Erro ao carregar presentes:", error)
-    } finally {
-      setLoading(false)
+  try {
+    setLoading(true)
+    const response = await fetch("/api/gifts")
+    const data = await response.json()
+
+    if (!Array.isArray(data)) {
+      console.error("API não retornou um array:", data)
+      setGifts([])
+      setFilteredGifts([])
+      return
     }
+
+    setGifts(data)
+    setFilteredGifts(data)
+  } catch (error) {
+    console.error("Erro ao carregar presentes:", error)
+    setGifts([])
+    setFilteredGifts([])
+  } finally {
+    setLoading(false)
   }
+}
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category)
