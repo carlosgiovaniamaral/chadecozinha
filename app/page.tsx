@@ -5,21 +5,7 @@ import { GiftCard } from "@/components/gift-card"
 import { ReservaModal } from "@/components/reserva-modal"
 import { Header } from "@/components/header"
 import { CategoryFilter } from "@/components/category-filter"
-
-interface Gift {
-  id: string
-  name: string
-  description?: string
-  category: string
-  price?: number
-  imageUrl?: string
-  available: boolean
-  reserva?: {
-    user: {
-      name: string
-    }
-  }
-}
+import { Gift } from "./types/gift"  // ✅ Mantém só isso
 
 export default function Home() {
   const [gifts, setGifts] = useState<Gift[]>([])
@@ -93,17 +79,21 @@ export default function Home() {
 
         {/* Filtro de categoria */}
         <div className="mb-8">
-          <CategoryFilter categories={categories} selected={selectedCategory} onChange={handleCategoryChange} />
+          <CategoryFilter
+            categories={categories}
+            selected={selectedCategory}
+            onChange={handleCategoryChange}
+          />
         </div>
 
-        {/* Loading state */}
+        {/* Loading */}
         {loading && (
           <div className="flex justify-center items-center py-12">
             <div className="text-amber-700">Carregando presentes...</div>
           </div>
         )}
 
-        {/* Grid de presentes */}
+        {/* Grid */}
         {!loading && filteredGifts.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredGifts.map((gift) => (
@@ -120,7 +110,6 @@ export default function Home() {
         )}
       </main>
 
-      {/* Modal de reserva */}
       {selectedGift && (
         <ReservaModal
           gift={selectedGift}
